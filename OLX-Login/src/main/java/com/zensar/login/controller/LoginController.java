@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zensar.login.entity.Token;
 import com.zensar.login.entity.User;
 import com.zensar.login.service.LoginService;
 
@@ -29,7 +30,7 @@ public class LoginController {
 	 */
 
 	@PostMapping(value="/user/authenticate")
-	public String loginUser(@RequestBody User user) {
+	public Token loginUser(@RequestBody User user) {
 		return loginService.loginUser(user);
 	}
 
@@ -39,7 +40,7 @@ public class LoginController {
 	}
 
 	@PostMapping(value="/user")
-	public List<User> registerUser(@RequestBody User user){
+	public User registerUser(@RequestBody User user){
 		return loginService.registerUser(user);
 	}
 

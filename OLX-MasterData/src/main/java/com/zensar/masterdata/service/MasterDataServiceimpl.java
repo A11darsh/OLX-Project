@@ -99,6 +99,7 @@ public class MasterDataServiceimpl implements MasterDataService {
 	@Override
 	public List<MasterData> searchAdvertisementsByText(long filtercriteria, String category, String toDate,
 			String fromDate) {
+		
 		return data;
 	}
 

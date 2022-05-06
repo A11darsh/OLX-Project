@@ -31,4 +31,5 @@ public class AdvertizeController {
 	public HashMap<String, List<Status>> returnAllStatus() {
 		return advertizeService.returnAllStatus();
 	}
+
 }

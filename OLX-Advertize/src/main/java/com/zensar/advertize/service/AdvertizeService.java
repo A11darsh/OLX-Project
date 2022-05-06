@@ -9,5 +9,6 @@ import com.zensar.advertize.entity.Status;
 public interface AdvertizeService {
 
 	public HashMap<String, List<Categories>> returnAllCategories();
+	
 	public HashMap<String, List<Status>> returnAllStatus();
 }
