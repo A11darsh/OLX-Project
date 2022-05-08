@@ -1,4 +1,4 @@
-package com.zensar.advertize.config;
+/*package com.zensar.advertize.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,4 +26,4 @@ public class AdvertiseSwagger {
 	return new ApiInfo("Olx App", "This application manages Api", "1.0.0","http://www.zensar.com", "Adarsh", "Apache", "https://tomcat.apache.org/");
 	}
 	
-}
+}*/

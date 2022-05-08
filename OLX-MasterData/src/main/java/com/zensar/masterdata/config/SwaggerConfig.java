@@ -1,4 +1,5 @@
-/*package com.zensar.login.config;
+package com.zensar.masterdata.config;
+
 import java.util.function.Predicate;
 
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,7 @@ public class SwaggerConfig {
 	public Docket getCustomizedDocket() {
 	return new Docket(DocumentationType.SWAGGER_2)
 	.select()
-	.apis(RequestHandlerSelectors.basePackage("com.zensar.login"))
+	.apis(RequestHandlerSelectors.basePackage("com.zensar.masterdata"))
 	.build()
 	.apiInfo(getApiInfo());
 	}
@@ -28,4 +29,4 @@ public class SwaggerConfig {
 
 	return new ApiInfo("Olx App", "This application manages Api", "1.0.0","http://www.zensar.com", "Adarsh", "Apache", "https://tomcat.apache.org/");
 	}
-}*/
+}

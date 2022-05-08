@@ -1,7 +1,9 @@
 package com.zensar.advertize;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import com.zensar.advertize.entity.Categories;
 
@@ -12,5 +14,9 @@ public class OlxAdvertizeApplication {
 		SpringApplication.run(OlxAdvertizeApplication.class, args);
 		Categories data=new Categories();
 	
+	}
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 }

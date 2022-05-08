@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity(name="Mylogin")
 @Table(name="login")
 
-public class User {
+public class Login {
     
 	@Column(name="id")
 	@Id

@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zensar.login.entity.Token;
-import com.zensar.login.entity.User;
+import com.zensar.login.dto.LoginDto;
+import com.zensar.login.entity.Login;
 import com.zensar.login.service.LoginService;
 
 @RestController
@@ -25,13 +26,13 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 	/*
-	 * static List<User> user1 = new ArrayList<User>(); static { //user1.add(new
-	 * User(1,"anand","kulkarni","anand","anand123","anand@gmail.com",12345)); }
+	 * static List<Login> user1 = new ArrayList<Login>(); static { //user1.add(new
+	 * Login(1,"anand","kulkarni","anand","anand123","anand@gmail.com",12345)); }
 	 */
 
 	@PostMapping(value="/user/authenticate")
-	public Token loginUser(@RequestBody User user) {
-		return loginService.loginUser(user);
+	public Token loginUser(@RequestBody LoginDto loginDto) {
+		return loginService.loginUser(loginDto);
 	}
 
 	@DeleteMapping("/user/logout")
@@ -40,12 +41,12 @@ public class LoginController {
 	}
 
 	@PostMapping(value="/user")
-	public User registerUser(@RequestBody User user){
-		return loginService.registerUser(user);
+	public LoginDto registerUser(@RequestBody LoginDto loginDto){
+		return loginService.registerUser(loginDto);
 	}
 
 	@GetMapping(value="/user")
-	public List<User> getUser(@RequestHeader("auth-token") String token ){
+	public List<LoginDto> getUser(@RequestHeader("auth-token") String token ){
 		return loginService.getUser(token);
 	}
 

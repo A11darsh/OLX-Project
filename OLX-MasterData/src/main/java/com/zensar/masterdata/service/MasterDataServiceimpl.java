@@ -1,116 +1,169 @@
 package com.zensar.masterdata.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.zensar.masterdata.dto.MasterDataDto;
 import com.zensar.masterdata.entity.MasterData;
+import com.zensar.masterdata.repository.MasterDataRepository;
+
 @Service
 public class MasterDataServiceimpl implements MasterDataService {
 
-	static List<MasterData> data = new ArrayList<MasterData>();
-	static {
-		data.add(new MasterData(1, "laptop sale", 54000, "Electronic goods", "intel core 3 Sony Vaio", "anand", 2020,
-				2022, "OPEN"));
+	@Autowired
+	MasterDataRepository masterDataRepository;
 
-	}
+	@Autowired
+	private ModelMapper modelMapper;
+
+	/*
+	 * static List<MasterData> data = new ArrayList<MasterData>(); static {
+	 * data.add(new MasterData(1, "laptop sale", 54000, "Electronic goods",
+	 * "intel core 3 Sony Vaio", "anand", 2020, 2022, "OPEN"));
+	 * 
+	 * }
+	 */
 
 	@Override
-	public List<MasterData> postNewAdvertise(MasterData masterData, String token) {
+	public MasterDataDto postNewAdvertise(MasterDataDto masterDataDto, String token) {
+		MasterData masterData = modelMapper.map(masterDataDto, MasterData.class);
 		if (token.equalsIgnoreCase("am222")) {
-			return data;
-
+			masterDataRepository.save(masterData);
+			return modelMapper.map(masterData, MasterDataDto.class);
+			// return data;
 		} else
-
 			return null;
 	}
 
 	@Override
-	public MasterData updateAdvertise(int id, MasterData masterData1, String token) {
-		if (token.equals("am222")) {
-			System.out.println("hello");
-			Optional<MasterData> findAny = data.stream().filter(MasterData -> MasterData.getId() == id).findAny();
+	public MasterDataDto updateAdvertise(int id, MasterDataDto masterDataDto1, String token) {
 
-			if (findAny.isPresent()) {
-				MasterData obj = findAny.get();
-				obj.setTitle(masterData1.getTitle());
-				obj.setPrice(masterData1.getPrice());
-				obj.setId(masterData1.getId());
-				obj.setDescription(masterData1.getDescription());
-				return obj;
-			} else {
-				return findAny.orElseGet(() -> new MasterData());
+		MasterDataDto masterDataDto = ReturnAdvertiseDetails(id, token);
+		MasterData masterData = modelMapper.map(masterDataDto, MasterData.class);
+		masterData.setTitle(masterDataDto1.getTitle());
+		masterData.setPrice(masterDataDto1.getPrice());
+		// map.setId(masterDataDto1.getStatusId());
+		masterData.setDescription(masterDataDto1.getDescription());
+		return modelMapper.map(masterDataRepository.save(masterData), MasterDataDto.class);
+
+	}
+
+	/*
+	 * static { data.add(new MasterData(2, "Sofa available for sale", 30000,
+	 * "Furniture", "Sofa 5 years old available for Sale in Pune", "anand", 2020,
+	 * 2022, "OPEN")); }
+	 */
+
+	@Override
+	public HashMap<String, List<MasterDataDto>> Get(String token) {
+		HashMap<String, List<MasterDataDto>> map1 = new HashMap<>();
+		if (token.equals("am222")) {
+			List<MasterData> data = masterDataRepository.findAll();
+			List<MasterDataDto> masterDataDto = new ArrayList<>();
+			for (MasterData md : data) {
+				masterDataDto.add(modelMapper.map(md, MasterDataDto.class));
+				map1.put("advertises", masterDataDto);
 			}
-		} else
-			return null;
-	}
-
-	static {
-		data.add(new MasterData(2, "Sofa available for sale", 30000, "Furniture",
-				"Sofa 5 years old available for Sale in Pune", "anand", 2020, 2022, "OPEN"));
-	}
-
-	@Override
-	public List<MasterData> Get(String token) {
-		if (token.equals("am222")) {
-			return data;
+			return map1;
 		} else {
 			return null;
 		}
 	}
 
 	@Override
-	public MasterData getSpecificAdvertise(int id, String token) {
-		MasterData md = new MasterData();
+	public MasterDataDto getSpecificAdvertise(int id, String token) {
 		if (token.equals("am222")) {
-			for (MasterData Data : data) {
-				if (Data.getId() == id) {
-					return Data;
-				}
-			}
+			MasterData masterData = masterDataRepository.getById(id);
+			MasterDataDto materDataDto = modelMapper.map(masterData, MasterDataDto.class);
+			return materDataDto;
 		}
 		return null;
 	}
 
+	/*
+	 * List<MasterData> data = masterDataRepository.findAll(); List<MasterDataDto>
+	 * masterDataDto=new ArrayList<>(); for (MasterData md : data) {
+	 * masterDataDto.add(modelMapper.map(md, MasterDataDto.class)); } if
+	 * (token.equals("am222")) {
+	 * 
+	 * for(MasterDataDto mdDto: masterDataDto ) { if(mdDto.getId()==id) { return
+	 * mdDto; } } } return null; }
+	 */
+
 	@Override
 	public boolean deleteSpecificAdvertise(int id, String token) {
 		if (token.equals("am222")) {
-			Optional<MasterData> findAny = data.stream().filter(MasterData -> MasterData.getId() == id).findAny();
-
-			if (findAny.isPresent()) {
-				MasterData MasterData = findAny.get();
-				data.remove(MasterData);
-				return true;
-			} else {
-				return false;
-			}
-		} else
+			masterDataRepository.deleteById(id);
+			return true;
+		} else {
 			return false;
+		}
+		/*
+		 * for (MasterData Data : data) { if (Data.getId() == id) { data.remove(Data);
+		 * return true;}
+		 */
+		/*
+		 * Optional<MasterData> findAny = data.stream().filter(MasterData ->
+		 * MasterData.getId() == id).findAny();
+		 * 
+		 * if (findAny.isPresent()) { MasterData MasterData = findAny.get();
+		 * data.remove(MasterData); return true; } } else return false; return false;
+		 */
+	}
+
+	/*
+	 * @Override public List<MasterData> getStockItsName(String MasterName) {
+	 * List<MasterData> findStockByName = masterDataRepository.asd(MasterName);
+	 * 
+	 * // List<MasterData> data = new ArrayList<MasterData>();
+	 * 
+	 * for (MasterData st : findStockByName) { stockDto.add(modelMapper.map(st,
+	 * StockDto.class));}
+	 * 
+	 * return findStockByName; }
+	 */
+
+	@Override
+	public List<MasterDataDto> searchAdvertisementsByCriteria(String searchText,String category){
+					
+		List<MasterData> masterData = masterDataRepository.searchByFilterCriteria(searchText,category);
+				List<MasterDataDto> masterDataDto = new ArrayList<MasterDataDto>();
+				for (MasterData md : masterData)
+					masterDataDto.add(modelMapper.map(md, MasterDataDto.class));
+				return masterDataDto;
+
+		// List<MasterData> data = masterDataRepository.findAll();
+		/*
+		 * for (MasterData Data : data) { if (Data.getCategory() == category) {
+		 * List<MasterData> findStockBycategory = masterDataRepository.asd(category);
+		 * //List<MasterData> data1 = masterDataRepository.findAll(Sort.by(sortby));
+		 * return findStockBycategory; } } return null;
+		 */
 	}
 
 	@Override
-	public List<MasterData> searchAdvertisementsByCriteria(long filtercriteria, String category, String toDate,
-			String fromDate) {
-		return data;
+	public List<MasterDataDto> searchAdvertisementsByText(String searchText) {
+
+		List<MasterData> masterData = masterDataRepository.searchByText(searchText);
+		List<MasterDataDto> masterDataDto = new ArrayList<MasterDataDto>();
+		for (MasterData md : masterData)
+			masterDataDto.add(modelMapper.map(md, MasterDataDto.class));
+		return masterDataDto;
 	}
 
 	@Override
-	public List<MasterData> searchAdvertisementsByText(long filtercriteria, String category, String toDate,
-			String fromDate) {
-		
-		return data;
-	}
-
-	@Override
-	public MasterData ReturnAdvertiseDetails(int postId, String token) {
+	public MasterDataDto ReturnAdvertiseDetails(int postId, String token) {
 		if (token.equals("am222")) {
-			for (MasterData Data : data) {
-				if (Data.getId() == postId) {
-					return Data;
-				}
-			}
+			MasterData masterData = masterDataRepository.getById(postId);
+			MasterDataDto materDataDto = modelMapper.map(masterData, MasterDataDto.class);
+			return materDataDto;
 		}
 		return null;
 	}

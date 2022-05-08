@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zensar.advertize.dto.CategoriesDto;
+import com.zensar.advertize.dto.StatusDto;
 import com.zensar.advertize.entity.Categories;
 import com.zensar.advertize.entity.Status;
 import com.zensar.advertize.service.AdvertizeService;
@@ -23,12 +25,12 @@ public class AdvertizeController {
 	private AdvertizeService advertizeService;
 
 	@GetMapping(value = "/advertise/category")
-	public HashMap<String, List<Categories>> returnAllCategories() {
+	public HashMap<String, List<CategoriesDto>> returnAllCategories() {
 		return advertizeService.returnAllCategories();
 	}
 
 	@GetMapping(value = "/advertise/status")
-	public HashMap<String, List<Status>> returnAllStatus() {
+	public HashMap<String, List<StatusDto>> returnAllStatus() {
 		return advertizeService.returnAllStatus();
 	}
 

@@ -1,11 +1,15 @@
 package com.zensar.advertize.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zensar.advertize.dto.CategoriesDto;
+import com.zensar.advertize.dto.StatusDto;
 import com.zensar.advertize.entity.Categories;
 import com.zensar.advertize.entity.Status;
 import com.zensar.advertize.repository.AdvetiseRepository;
@@ -19,6 +23,8 @@ public class AdvertizeServiceImpl implements AdvertizeService {
 	@Autowired
 	StatusRepository statusRepository;
 
+	@Autowired
+	private ModelMapper modelMapper;
 	// HashMap<String, List<Categories>> map1 = new HashMap<>();
 	/*
 	 * List<Categories>>(); static List<Categories> cat = new
@@ -28,12 +34,16 @@ public class AdvertizeServiceImpl implements AdvertizeService {
 	 * "cars")); cat.add(new Categories(3, "Mobiles")); cat.add(new Categories(4,
 	 * "Real Estate")); cat.add(new Categories(5, "Sports")); }
 	 */
-	HashMap<String, List<Categories>> map1 = new HashMap<>();
+	HashMap<String, List<CategoriesDto>> map1 = new HashMap<>();
 
 	@Override
-	public HashMap<String, List<Categories>> returnAllCategories() {
+	public HashMap<String, List<CategoriesDto>> returnAllCategories() {
 		List<Categories> data = advetiseRepository.findAll();
-		map1.put("Categories", data);
+		List<CategoriesDto> dto=new ArrayList<>();
+		for(Categories cat: data) {
+			dto.add(modelMapper.map(cat, CategoriesDto.class));
+		}
+		map1.put("Categories", dto);
 		return map1;
 		// map1.put("Categories", cat);
 		// return map1;
@@ -48,11 +58,15 @@ public class AdvertizeServiceImpl implements AdvertizeService {
 	 * }
 	 */
 
-	HashMap<String, List<Status>> map2 = new HashMap<>();
+	HashMap<String, List<StatusDto>> map2 = new HashMap<>();
 	@Override
-	public HashMap<String, List<Status>> returnAllStatus() {
+	public HashMap<String, List<StatusDto>> returnAllStatus() {
 		List<Status> data1 = statusRepository.findAll();
-		map2.put("statusList", data1);
+		List<StatusDto> statusDto=new ArrayList<>();
+		for(Status st: data1) {
+			statusDto.add(modelMapper.map(st, StatusDto.class));
+		}
+		map2.put("statusList", statusDto);
 		return map2;
 		// map2.put("StatusList", status);
 		// return map2;

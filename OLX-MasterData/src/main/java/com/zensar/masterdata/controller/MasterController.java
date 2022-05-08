@@ -1,6 +1,7 @@
 package com.zensar.masterdata.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zensar.masterdata.dto.MasterDataDto;
 import com.zensar.masterdata.entity.MasterData;
 import com.zensar.masterdata.service.MasterDataService;
 
@@ -27,24 +29,24 @@ public class MasterController {
 	private MasterDataService masterDataService;
 
 	@PostMapping(value = "/advertise")
-	public List<MasterData> postNewAdvertise(@RequestBody MasterData masterData,
+	public MasterDataDto postNewAdvertise(@RequestBody MasterDataDto masterDataDto,
 			@RequestHeader("auth-token") String token) {
-		return masterDataService.postNewAdvertise(masterData, token);
+		return masterDataService.postNewAdvertise(masterDataDto, token);
 	}
 
 	@PutMapping(value = "/advertise/{id}")
-	public MasterData updateAdvertise(@PathVariable int id, @RequestBody MasterData masterData1,
+	public MasterDataDto updateAdvertise(@PathVariable int id, @RequestBody MasterDataDto masterDataDto1,
 			@RequestHeader("auth-token") String token) {
-		return masterDataService.updateAdvertise(id, masterData1, token);
+		return masterDataService.updateAdvertise(id, masterDataDto1, token);
 	}
 
 	@GetMapping(value = "/user/advertise")
-	public List<MasterData> Get(@RequestHeader("auth-token") String token) {
+	public HashMap<String, List<MasterDataDto>> Get(@RequestHeader("auth-token") String token) {
 		return masterDataService.Get(token);
 	}
 
 	@GetMapping(value = "/user/advertise/{id}")
-	public MasterData getSpecificAdvertise(@PathVariable int id, @RequestHeader("auth-token") String token) {
+	public MasterDataDto getSpecificAdvertise(@PathVariable int id, @RequestHeader("auth-token") String token) {
 		return masterDataService.getSpecificAdvertise(id, token);
 	}
 
@@ -54,19 +56,17 @@ public class MasterController {
 	}
 
 	@GetMapping(value = "/advertise/search/{filtercriteria}")
-	public List<MasterData> searchAdvertisementsByCriteria(@PathVariable long filtercriteria, String category,
-			String toDate, String fromDate) {
-		return masterDataService.searchAdvertisementsByCriteria(filtercriteria, category, toDate, fromDate);
+	public List<MasterDataDto> searchAdvertisementsByCriteria(@PathVariable("filtercriteria") String searchText,String category) {
+		return masterDataService.searchAdvertisementsByCriteria(searchText,category);
 	}
 
 	@GetMapping(value = "/advertise/search")
-	public List<MasterData> searchAdvertisementsByText(@PathVariable long filtercriteria, String category,
-			String toDate, String fromDate) {
-		return masterDataService.searchAdvertisementsByText(filtercriteria, category, toDate, fromDate);
+	public List<MasterDataDto> searchAdvertisementsByText(@PathVariable String searchText) {
+		return masterDataService.searchAdvertisementsByText(searchText);
 	}
 
 	@GetMapping(value = "/advertise/{postId}")
-	public MasterData ReturnAdvertiseDetails(@PathVariable int postId, @RequestHeader("auth-token") String token) {
+	public MasterDataDto ReturnAdvertiseDetails(@PathVariable int postId, @RequestHeader("auth-token") String token) {
 		return masterDataService.ReturnAdvertiseDetails(postId, token);
 	}
 }

@@ -1,9 +1,9 @@
 server:
-  port: 4000
+  port: 4010
 spring:
   datasource:
     password: root
-    url: jdbc:mysql://localhost:3306/olxApp
+    url: jdbc:mysql://localhost:3306/Advertise
     username: root
   jpa:
     hibernate:
@@ -22,7 +22,7 @@ management:
          - "*"
        # exclude:
         # - health
-      base-path: "/loginApp"  
+      base-path: "/Advertise"  
       
   endpoint:
     shutdown:
