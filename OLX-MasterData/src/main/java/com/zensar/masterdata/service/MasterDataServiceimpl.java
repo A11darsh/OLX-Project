@@ -23,21 +23,12 @@ public class MasterDataServiceimpl implements MasterDataService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	/*
-	 * static List<MasterData> data = new ArrayList<MasterData>(); static {
-	 * data.add(new MasterData(1, "laptop sale", 54000, "Electronic goods",
-	 * "intel core 3 Sony Vaio", "anand", 2020, 2022, "OPEN"));
-	 * 
-	 * }
-	 */
-
 	@Override
 	public MasterDataDto postNewAdvertise(MasterDataDto masterDataDto, String token) {
 		MasterData masterData = modelMapper.map(masterDataDto, MasterData.class);
 		if (token.equalsIgnoreCase("am222")) {
 			masterDataRepository.save(masterData);
 			return modelMapper.map(masterData, MasterDataDto.class);
-			// return data;
 		} else
 			return null;
 	}
@@ -54,12 +45,6 @@ public class MasterDataServiceimpl implements MasterDataService {
 		return modelMapper.map(masterDataRepository.save(masterData), MasterDataDto.class);
 
 	}
-
-	/*
-	 * static { data.add(new MasterData(2, "Sofa available for sale", 30000,
-	 * "Furniture", "Sofa 5 years old available for Sale in Pune", "anand", 2020,
-	 * 2022, "OPEN")); }
-	 */
 
 	@Override
 	public HashMap<String, List<MasterDataDto>> Get(String token) {
@@ -87,16 +72,6 @@ public class MasterDataServiceimpl implements MasterDataService {
 		return null;
 	}
 
-	/*
-	 * List<MasterData> data = masterDataRepository.findAll(); List<MasterDataDto>
-	 * masterDataDto=new ArrayList<>(); for (MasterData md : data) {
-	 * masterDataDto.add(modelMapper.map(md, MasterDataDto.class)); } if
-	 * (token.equals("am222")) {
-	 * 
-	 * for(MasterDataDto mdDto: masterDataDto ) { if(mdDto.getId()==id) { return
-	 * mdDto; } } } return null; }
-	 */
-
 	@Override
 	public boolean deleteSpecificAdvertise(int id, String token) {
 		if (token.equals("am222")) {
@@ -105,47 +80,18 @@ public class MasterDataServiceimpl implements MasterDataService {
 		} else {
 			return false;
 		}
-		/*
-		 * for (MasterData Data : data) { if (Data.getId() == id) { data.remove(Data);
-		 * return true;}
-		 */
-		/*
-		 * Optional<MasterData> findAny = data.stream().filter(MasterData ->
-		 * MasterData.getId() == id).findAny();
-		 * 
-		 * if (findAny.isPresent()) { MasterData MasterData = findAny.get();
-		 * data.remove(MasterData); return true; } } else return false; return false;
-		 */
+
 	}
 
-	/*
-	 * @Override public List<MasterData> getStockItsName(String MasterName) {
-	 * List<MasterData> findStockByName = masterDataRepository.asd(MasterName);
-	 * 
-	 * // List<MasterData> data = new ArrayList<MasterData>();
-	 * 
-	 * for (MasterData st : findStockByName) { stockDto.add(modelMapper.map(st,
-	 * StockDto.class));}
-	 * 
-	 * return findStockByName; }
-	 */
-
 	@Override
-	public List<MasterDataDto> searchAdvertisementsByCriteria(String searchText,String category){
-					
-		List<MasterData> masterData = masterDataRepository.searchByFilterCriteria(searchText,category);
-				List<MasterDataDto> masterDataDto = new ArrayList<MasterDataDto>();
-				for (MasterData md : masterData)
-					masterDataDto.add(modelMapper.map(md, MasterDataDto.class));
-				return masterDataDto;
+	public List<MasterDataDto> searchAdvertisementsByCriteria(String searchText, String category) {
 
-		// List<MasterData> data = masterDataRepository.findAll();
-		/*
-		 * for (MasterData Data : data) { if (Data.getCategory() == category) {
-		 * List<MasterData> findStockBycategory = masterDataRepository.asd(category);
-		 * //List<MasterData> data1 = masterDataRepository.findAll(Sort.by(sortby));
-		 * return findStockBycategory; } } return null;
-		 */
+		List<MasterData> masterData = masterDataRepository.searchByFilterCriteria(searchText, category);
+		List<MasterDataDto> masterDataDto = new ArrayList<MasterDataDto>();
+		for (MasterData md : masterData)
+			masterDataDto.add(modelMapper.map(md, MasterDataDto.class));
+		return masterDataDto;
+
 	}
 
 	@Override
@@ -169,3 +115,54 @@ public class MasterDataServiceimpl implements MasterDataService {
 	}
 
 }
+
+/*
+ * static List<MasterData> data = new ArrayList<MasterData>(); static {
+ * data.add(new MasterData(1, "laptop sale", 54000, "Electronic goods",
+ * "intel core 3 Sony Vaio", "anand", 2020, 2022, "OPEN"));
+ * 
+ * }
+ */
+/*
+ * static { data.add(new MasterData(2, "Sofa available for sale", 30000,
+ * "Furniture", "Sofa 5 years old available for Sale in Pune", "anand", 2020,
+ * 2022, "OPEN")); }
+ */
+/*
+ * List<MasterData> data = masterDataRepository.findAll(); List<MasterDataDto>
+ * masterDataDto=new ArrayList<>(); for (MasterData md : data) {
+ * masterDataDto.add(modelMapper.map(md, MasterDataDto.class)); } if
+ * (token.equals("am222")) {
+ * 
+ * for(MasterDataDto mdDto: masterDataDto ) { if(mdDto.getId()==id) { return
+ * mdDto; } } } return null; }
+ */
+/*
+ * for (MasterData Data : data) { if (Data.getId() == id) { data.remove(Data);
+ * return true;}
+ */
+/*
+ * Optional<MasterData> findAny = data.stream().filter(MasterData ->
+ * MasterData.getId() == id).findAny();
+ * 
+ * if (findAny.isPresent()) { MasterData MasterData = findAny.get();
+ * data.remove(MasterData); return true; } } else return false; return false;
+ */
+/*
+ * @Override public List<MasterData> getStockItsName(String MasterName) {
+ * List<MasterData> findStockByName = masterDataRepository.asd(MasterName);
+ * 
+ * // List<MasterData> data = new ArrayList<MasterData>();
+ * 
+ * for (MasterData st : findStockByName) { stockDto.add(modelMapper.map(st,
+ * StockDto.class));}
+ * 
+ * return findStockByName; }
+ */
+//List<MasterData> data = masterDataRepository.findAll();
+/*
+ * for (MasterData Data : data) { if (Data.getCategory() == category) {
+ * List<MasterData> findStockBycategory = masterDataRepository.asd(category);
+ * //List<MasterData> data1 = masterDataRepository.findAll(Sort.by(sortby));
+ * return findStockBycategory; } } return null;
+ */

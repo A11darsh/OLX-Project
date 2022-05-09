@@ -9,17 +9,17 @@ import org.springframework.stereotype.Repository;
 
 import com.zensar.masterdata.entity.MasterData;
 
-
 @Repository
 public interface MasterDataRepository extends JpaRepository<MasterData, Integer> {
 
-	@Query(value = "select * from master where category=:category", nativeQuery = true)
-	List<MasterData> asd(@Param("category") String category);
+	@Query(value = "SELECT * FROM Master WHERE category LIKE %:searchByText% or description LIKE"
+			+ " %:searchByText% or status LIKE %:searchByText% or title LIKE %:searchByText% or username"
+			+ " LIKE %:searchByText%", nativeQuery = true)
+	List<MasterData> searchByText(@Param("searchByText")String searchText);
 
-	
-	
-	List<MasterData> searchByText(String searchText);
+	@Query(value = "SELECT * FROM Master WHERE category LIKE %:search% or description LIKE"
+			+ " %:search% or status LIKE %:search% or title LIKE %:search% or username"
+			+ " LIKE %:search% or category LIKE %:categorys%", nativeQuery = true)
+	List<MasterData> searchByFilterCriteria(@Param("search")String searchText,@Param("categorys")String category);
 
-	List<MasterData> searchByFilterCriteria(String searchText, String category);
-	
 }

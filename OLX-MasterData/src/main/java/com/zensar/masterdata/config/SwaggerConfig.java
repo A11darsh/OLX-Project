@@ -1,4 +1,4 @@
-package com.zensar.masterdata.config;
+/*package com.zensar.masterdata.config;
 
 import java.util.function.Predicate;
 
@@ -29,4 +29,4 @@ public class SwaggerConfig {
 
 	return new ApiInfo("Olx App", "This application manages Api", "1.0.0","http://www.zensar.com", "Adarsh", "Apache", "https://tomcat.apache.org/");
 	}
-}
+}*/
